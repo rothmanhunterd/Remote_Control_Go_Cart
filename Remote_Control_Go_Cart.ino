@@ -31,32 +31,12 @@ void setup() {
 void loop() {
   // insert processing to get inputs
 
-  setPedalStepperPos(gasStepper, mapStepperInputs(rawGasInput, pedalMinPos, pedalMaxPos));
-  setPedalStepperPos(brakeStepper, mapStepperInputs(rawBrakeInput, pedalMinPos, pedalMaxPos));
+  gasStepper.moveTo(mapStepperInputs(rawGasInput, pedalMinPos, pedalMaxPos));
+  brakeStepper.moveTo(mapStepperInputs(rawBrakeInput, pedalMinPos, pedalMaxPos));
 
-  setSteerStepperPos(mapStepperInputs(rawSteerInput, steerMinPos, steerMaxPos));
+  steerStepper.moveTo(mapStepperInputs(rawSteerInput, steerMinPos, steerMaxPos));
 }
 
 long mapStepperInputs(long stepperInput, long stepperMinPos, long stepperMaxPos) {
-  return map(stepperInput, minInput, maxInput, stepperMinPos, stepperMaxPos);
-}
-
-void setPedalStepperPos(AccelStepper stepper, long targetPos) {
-  if (targetPos < pedalMinPos) {
-    targetPos = pedalMinPos;
-  } else if (targetPos > pedalMaxPos) {
-    targetPos = pedalMaxPos;
-  }
-
-  stepper.moveTo(targetPos);
-}
-
-void setSteerStepperPos(long targetPos) {
-  if (targetPos < steerMinPos) {
-    targetPos = steerMinPos;
-  } else if (targetPos > steerMaxPos) {
-    targetPos = steerMaxPos;
-  }
-
-  steerStepper.moveTo(targetPos);
+  return constrain(map(stepperInput, minInput, maxInput, stepperMinPos, stepperMaxPos), stepperMinPos, stepperMaxPos);
 }
