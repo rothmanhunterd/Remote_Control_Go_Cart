@@ -31,12 +31,12 @@ void setup() {
 void loop() {
   // insert processing to get inputs
 
-  gasStepper.moveTo(mapStepperInputs(rawGasInput, pedalMinPos, pedalMaxPos));
-  brakeStepper.moveTo(mapStepperInputs(rawBrakeInput, pedalMinPos, pedalMaxPos));
+  gasStepper.moveTo(scaleStepperInputs(rawGasInput, pedalMinPos, pedalMaxPos));
+  brakeStepper.moveTo(scaleStepperInputs(rawBrakeInput, pedalMinPos, pedalMaxPos));
 
-  steerStepper.moveTo(mapStepperInputs(rawSteerInput, steerMinPos, steerMaxPos));
+  steerStepper.moveTo(scaleStepperInputs(rawSteerInput, steerMinPos, steerMaxPos));
 }
 
-long mapStepperInputs(long stepperInput, long stepperMinPos, long stepperMaxPos) {
+long scaleStepperInputs(long stepperInput, long stepperMinPos, long stepperMaxPos) {
   return constrain(map(stepperInput, minInput, maxInput, stepperMinPos, stepperMaxPos), stepperMinPos, stepperMaxPos);
 }
